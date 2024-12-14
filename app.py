@@ -1,5 +1,5 @@
 from flask import Flask, request
-from models import db, User, ReadingList
+from models import db, myUser, ReadingList
 from flask_migrate import Migrate
 
 app= Flask(__name__)
