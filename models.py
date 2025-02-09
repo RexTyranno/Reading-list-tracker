@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
@@ -6,13 +7,29 @@ class myUser(db.Model):
     id= db.Column(db.Integer, primary_key=True)
     name= db.Column(db.String(100), nullable=False)
     email= db.Column(db.String(100), nullable=False, unique= True)
+    password_hash = db.Column(db.String(128), nullable= False)
     
-class ReadingList(db.Model):
+    def set_password(self, password):
+        self.password_hash= generate_password_hash(password)
+        
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+    
+class Books(db.Model):
     id= db.Column(db.Integer, primary_key=True)
-    user_id= db.Column(db.Integer, db.ForeignKey('my_user.id'), nullable=False)
-    book_name= db.Column(db.String(512), nullable= False)
-    status= db.Column(db.String(100))
-    rating= db.Column(db.Float)
-    total_chapters= db.Column(db.Integer)
-    chapters_read= db.Column(db.Integer)
-    comments= db.Column(db.Text)
+    title = db.Column(db.varchar)
+    author = db.Column(db.varchar)
+    summary = db.Column(db.varchar)
+    
+class ReadingLists(db.Model):
+    id= db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.varchar)
+    user_id = db.Column(db.Integer, db.ForeignKey('my_user.id'), nullable=False)
+    
+class rltobooks(db.Model):
+    id= db.Column(db.Integer, primary_key=True)
+    rl_id = db.Column(db.Integer, db.ForeignKey('reading_lists.id'), nullable=False)
+    book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
+    status = db.Column(db.varchar)
+    
+    
