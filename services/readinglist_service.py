@@ -16,6 +16,7 @@ class ReadingListService:
     def get_reading_lists(user_id):
         return ReadingLists.query.filter_by(user_id=user_id).all()
     
+    
     @staticmethod
     def update_reading_list(reading_list_id, reading_list_name=None):
         reading_list_item = ReadingLists.query.get(reading_list_id)
