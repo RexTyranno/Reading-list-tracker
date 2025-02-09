@@ -17,19 +17,19 @@ class myUser(db.Model):
     
 class Books(db.Model):
     id= db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.varchar)
-    author = db.Column(db.varchar)
-    summary = db.Column(db.varchar)
+    title = db.Column(db.String(255))
+    author = db.Column(db.String(255))
+    summary = db.Column(db.String(255))
     
 class ReadingLists(db.Model):
     id= db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.varchar)
+    name = db.Column(db.String(255))
     user_id = db.Column(db.Integer, db.ForeignKey('my_user.id'), nullable=False)
     
 class rltobooks(db.Model):
     id= db.Column(db.Integer, primary_key=True)
     rl_id = db.Column(db.Integer, db.ForeignKey('reading_lists.id'), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey('books.id'), nullable=False)
-    status = db.Column(db.varchar)
+    status = db.Column(db.String(100))
     
     
