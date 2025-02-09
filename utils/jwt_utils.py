@@ -1,10 +1,11 @@
 import jwt
 from datetime import datetime, timedelta, timezone
 from config import Config
+from models import myUser
 
-def generate_jwt(user_id):
+def generate_jwt(email):
     payload = {
-        'user_id': user_id,
+        'email': email,
         'exp': datetime.now(timezone.utc) + timedelta(hours=1)  # Token expires in 1 hour
     }
     token = jwt.encode(payload, Config.JWT_SECRET_KEY, algorithm='HS256')
@@ -13,7 +14,9 @@ def generate_jwt(user_id):
 def verify_jwt(token):
     try:
         payload = jwt.decode(token, Config.JWT_SECRET_KEY, algorithms=['HS256'])
-        return payload['user_id']
+        email = payload['email']
+        user = myUser.query.filter_by(email=email).first()
+        return user.id
     except jwt.ExpiredSignatureError:
         return None  # Token has expired
     except jwt.InvalidTokenError:
