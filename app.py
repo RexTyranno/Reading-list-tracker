@@ -1,13 +1,11 @@
 from flask import Flask, request, jsonify
-from models import db, myUser, ReadingLists, rltobooks, Books
+from models import db
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 import os
-from services.auth_service import authenticate_user, register_user, login_user
-from services.readinglist_service import create_reading_list, get_reading_lists, update_reading_list, delete_reading_list   
-from services.books_service import create_book, get_books
+from services.auth_service import register_user, login_user
+from services.readinglist_service import create_reading_list, get_reading_lists
 from decorators.auth_decorator import token_required
-from utils.jwt_utils import generate_jwt
 
 load_dotenv()
 
